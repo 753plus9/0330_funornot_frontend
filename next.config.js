@@ -7,3 +7,10 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+// frontend/next.config.js
+module.exports = {
+  images: {
+    domains: ['replicate.delivery'],
+  },
+}
