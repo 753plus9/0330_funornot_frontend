@@ -1,13 +1,19 @@
-// frontend/pages/for_daughter/upload.tsx
 import { useState } from 'react'
 import Image from 'next/image'
+
+type FashionItem = {
+  name: string
+  brand: string
+  price: string
+  description: string
+}
 
 export default function UploadPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
-  const [fashionInfo, setFashionInfo] = useState<string | null>(null)
+  const [fashionItems, setFashionItems] = useState<FashionItem[]>([])
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -19,29 +25,23 @@ export default function UploadPage() {
 
   const handleSubmit = async () => {
     if (!selectedImage) return
-  
+
     setLoading(true)
     setResultImage(null)
-    setFashionInfo(null)
-  
+    setFashionItems([])
+
     const formData = new FormData()
     formData.append('image', selectedImage)
-  
+
     try {
       const response = await fetch('http://localhost:8000/api/generate', {
         method: 'POST',
         body: formData,
       })
-  
+
       const data = await response.json()
-      // 仮にテスト用なら response をこのように作る
-    // const data = {
-    //     generated_image_url: '/sample_result.png',
-    //     fashion_info: 'ジャケット：UNIQLO ¥5,990<br/>パンツ：ZARA ¥6,800'
-    // }
-  
-      setResultImage(data.generated_image_url)　 // ← ReplicateのURL（例: https://replicate.delivery/pb/xxxxxx.png）
-      setFashionInfo(data.fashion_info) // ブランドや金額もAPIで取得できるならここで
+      setResultImage(data.generated_image_url)
+      setFashionItems(data.fashion_items)
     } catch (err) {
       console.error('変換失敗:', err)
       alert('画像の変換に失敗しました。')
@@ -54,10 +54,31 @@ export default function UploadPage() {
     handleSubmit()
   }
 
-  const handleConfirm = () => {
-    // 確定 → API or DB登録＆Submit画面に遷移
-    alert('確定しました！（ここでデータ保存＆画面遷移）')
+  const handleConfirm = async () => {
+    try {
+      const res = await fetch('http://localhost:8000/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          family_id: '001', // ← ログインユーザー情報から取得（TODO）
+          before_url: previewUrl,            // ← アップロード前のURL
+          after_url: resultImage,            // ← Replicate生成URL
+          fashion_items: fashionItems,
+        }),
+      })
+  
+      if (res.ok) {
+        alert('保存しました！')
+        // 画面遷移など
+      } else {
+        alert('保存に失敗しました')
+      }
+    } catch (err) {
+      console.error('保存エラー:', err)
+      alert('保存処理でエラーが発生しました')
+    }
   }
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
@@ -91,7 +112,16 @@ export default function UploadPage() {
             <Image src={resultImage} alt="Result" width={300} height={400} className="rounded-xl shadow-md" />
           </div>
 
-          <div className="bg-white p-4 rounded-xl shadow w-full max-w-xs mb-4 text-sm" dangerouslySetInnerHTML={{ __html: fashionInfo || '' }} />
+          <div className="w-full max-w-xs space-y-4 mb-4">
+            {fashionItems.map((item, index) => (
+              <div key={index} className="bg-white p-4 rounded-xl shadow text-sm">
+                <p className="font-bold">{item.name}</p>
+                <p>ブランド：{item.brand}</p>
+                <p>価格：{item.price}</p>
+                <p className="text-gray-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
 
           <div className="flex space-x-4">
             <button onClick={handleRetry} className="flex-1 bg-gray-300 text-black px-4 py-2 rounded-xl">
