@@ -14,6 +14,8 @@ export default function UploadPage() {
   const [loading, setLoading] = useState(false)
   const [resultImage, setResultImage] = useState<string | null>(null)
   const [fashionItems, setFashionItems] = useState<FashionItem[]>([])
+  const [beforeImageUrl, setBeforeImageUrl] = useState<string | null>(null) // Blob URLを保持
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -42,6 +44,8 @@ export default function UploadPage() {
       const data = await response.json()
       setResultImage(data.generated_image_url)
       setFashionItems(data.fashion_items)
+      setBeforeImageUrl(data.before_image_url) // 新たに受け取るBlob URL
+
     } catch (err) {
       console.error('変換失敗:', err)
       alert('画像の変換に失敗しました。')
@@ -56,12 +60,12 @@ export default function UploadPage() {
 
   const handleConfirm = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/save', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           family_id: '001', // ← ログインユーザー情報から取得（TODO）
-          before_url: previewUrl,            // ← アップロード前のURL
+          before_url: beforeImageUrl,            // ← アップロード前のURL
           after_url: resultImage,            // ← Replicate生成URL
           fashion_items: fashionItems,
         }),
