@@ -41,10 +41,28 @@ export default function UploadPage() {
         body: formData,
       })
 
-      const data = await response.json()
-      setResultImage(data.generated_image_url)
-      setFashionItems(data.fashion_items)
-      setBeforeImageUrl(data.before_image_url) // 新たに受け取るBlob URL
+      // const data = await response.json()
+      // setResultImage(data.generated_image_url)
+      // setFashionItems(data.fashion_items)
+      // setBeforeImageUrl(data.before_image_url) // 新たに受け取るBlob URL
+
+      // 👇 ここでレスポンスのステータスを確認！
+      if (!response.ok) {
+        console.error("画像変換リクエスト失敗:", response.status);
+        alert("画像の変換に失敗しました。");
+        return;
+      }
+
+      const text = await response.text()
+      try {
+        const data = JSON.parse(text)
+        setResultImage(data.generated_image_url)
+        setFashionItems(data.fashion_items)
+        setBeforeImageUrl(data.before_image_url)
+      } catch (err) {
+        console.error('レスポンスJSONパース失敗:', text)
+        alert('画像の変換に失敗しました。')
+      }
 
     } catch (err) {
       console.error('変換失敗:', err)
