@@ -26,7 +26,9 @@ jobs:
       - name: npm install, build, and test
       #1
         env:
-          NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
+        #  NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
+        NEXT_PUBLIC_API_ENDPOINT: https://app-002-step3-2-py-oshima6.azurewebsites.net
+
         run: |
           npm install
           npm run build --if-present
