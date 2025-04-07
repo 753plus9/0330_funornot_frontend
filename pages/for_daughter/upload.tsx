@@ -36,7 +36,7 @@ export default function UploadPage() {
     formData.append('image', selectedImage)
 
     try {
-      const response = await fetch('http://localhost:8000/api/generate', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/generate`, {
         method: 'POST',
         body: formData,
       })
