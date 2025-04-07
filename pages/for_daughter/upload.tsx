@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
+console.log("✅ 現在のAPIエンドポイント1:", process.env.NEXT_PUBLIC_API_ENDPOINT)
+
+
 type FashionItem = {
   name: string
   brand: string
@@ -25,8 +28,12 @@ export default function UploadPage() {
     }
   }
 
+  console.log("✅ 現在のAPIエンドポイント2:", process.env.NEXT_PUBLIC_API_ENDPOINT)
+
   const handleSubmit = async () => {
     if (!selectedImage) return
+
+    console.log("✅ 現在のAPIエンドポイント3:", process.env.NEXT_PUBLIC_API_ENDPOINT)
 
     setLoading(true)
     setResultImage(null)
@@ -36,6 +43,7 @@ export default function UploadPage() {
     formData.append('image', selectedImage)
 
     try {
+      console.log("✅ 現在のAPIエンドポイント4:", process.env.NEXT_PUBLIC_API_ENDPOINT)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/generate`, {
         method: 'POST',
         body: formData,
