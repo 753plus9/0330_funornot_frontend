@@ -44,7 +44,7 @@ export default function UploadPage() {
 
     try {
       console.log("✅ 現在のAPIエンドポイント4:", process.env.NEXT_PUBLIC_API_ENDPOINT)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/generate`, {
+      const response = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/generate`, {
         method: 'POST',
         body: formData,
       })
@@ -86,7 +86,8 @@ export default function UploadPage() {
 
   const handleConfirm = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/save`, {
+      const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/save`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
