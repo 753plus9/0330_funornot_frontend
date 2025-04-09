@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .input-style {
     @apply w-full p-3 mb-3 border border-gray-300 rounded-xl text-sm;
   }
@@ -14,4 +13,3 @@
   .btn-secondary {
     @apply bg-gray-300 text-black px-4 py-3 rounded-xl text-center hover:bg-gray-400;
   }
-  
