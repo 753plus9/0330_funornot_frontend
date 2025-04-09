@@ -112,53 +112,68 @@ export default function UploadPage() {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-      <h1 className="text-xl font-bold mb-4 text-center">お父さんの写真をアップしよう📷</h1>
-
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-6 flex flex-col items-center font-sans">
+      <h1 className="text-2xl font-extrabold text-gray-800 mb-6 text-center">
+        お父さんの写真をアップしよう <span className="text-pink-500">📷</span>
+      </h1>
+  
       {!selectedImage && (
-        <label className="w-full max-w-xs p-6 bg-white border border-dashed border-gray-300 rounded-2xl text-center shadow-sm cursor-pointer">
+        <label className="w-full max-w-xs p-6 bg-white border-2 border-dashed border-gray-300 rounded-2xl text-center shadow-md cursor-pointer hover:bg-gray-50 transition">
           <input type="file" accept="image/*" onChange={handleImageChange} hidden />
-          <p className="text-gray-500">タップして写真を選ぶ</p>
+          <p className="text-gray-500 text-sm">📸 タップして写真を選ぶ</p>
         </label>
       )}
-
+  
       {previewUrl && (
-        <div className="mb-4 w-full max-w-xs">
-          <Image src={previewUrl} alt="Preview" width={300} height={400} className="rounded-xl object-cover" />
+        <div className="mb-6 w-full max-w-xs">
+          <Image src={previewUrl} alt="Preview" width={300} height={400} className="rounded-xl shadow-lg object-cover" />
         </div>
       )}
-
+  
       {previewUrl && !loading && !resultImage && (
-        <button onClick={handleSubmit} className="bg-pink-500 text-white px-6 py-3 rounded-xl shadow hover:bg-pink-600 mb-4">
+        <button
+          onClick={handleSubmit}
+          className="w-full max-w-xs bg-pink-500 text-white font-bold text-lg py-3 rounded-full shadow-md hover:bg-pink-600 transition mb-6"
+        >
           BeDandy ✨
         </button>
       )}
-
-      {loading && <p className="text-gray-600 mt-4">変身中... お待ちください 💫</p>}
-
+  
+      {loading && (
+        <p className="text-gray-600 mt-4 animate-pulse">変身中... お待ちください 💫</p>
+      )}
+  
       {resultImage && (
         <>
-          <h2 className="text-lg font-semibold mt-6 mb-2">変身後のお父さん 💇‍♂️</h2>
+          <h2 className="text-xl font-semibold text-gray-700 mt-6 mb-4 text-center">
+            変身後のお父さん 💇‍♂️
+          </h2>
           <div className="w-full max-w-xs mb-4">
-            <Image src={resultImage} alt="Result" width={300} height={400} className="rounded-xl shadow-md" />
+            <Image src={resultImage} alt="Result" width={300} height={400} className="rounded-xl shadow-xl" />
           </div>
-
-          <div className="w-full max-w-xs space-y-4 mb-4">
+  
+          <div className="w-full max-w-xs space-y-4 mb-6">
             {fashionItems.map((item, index) => (
-              <div key={index} className="bg-white p-4 rounded-xl shadow text-sm">
-                <p className="font-bold">{item.name}</p>
-                <p>ブランド：{item.brand}</p>
-                <p>価格：{item.price}</p>
-                <p className="text-gray-600">{item.description}</p>
+              <div key={index} className="bg-white p-4 rounded-2xl shadow-md text-sm border border-gray-100">
+                <p className="font-bold text-gray-800">{item.name}</p>
+                <p className="text-gray-600">ブランド：{item.brand}</p>
+                <p className="text-gray-600">価格：{item.price}</p>
+                <p className="text-gray-500 text-xs mt-1">{item.description}</p>
               </div>
             ))}
           </div>
-
-          <div className="flex space-x-4">
-            <button onClick={handleRetry} className="flex-1 bg-gray-300 text-black px-4 py-2 rounded-xl">
+  
+          <div className="flex space-x-4 w-full max-w-xs">
+            <button
+              onClick={handleRetry}
+              className="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-full hover:bg-gray-300 transition"
+            >
               再度実行
             </button>
-            <button onClick={handleConfirm} className="flex-1 bg-green-500 text-white px-4 py-2 rounded-xl">
+            <button
+              onClick={handleConfirm}
+              className="flex-1 bg-green-500 text-white font-semibold py-2 rounded-full hover:bg-green-600 transition"
+            >
               確定する
             </button>
           </div>
@@ -166,4 +181,5 @@ export default function UploadPage() {
       )}
     </div>
   )
+  
 }
