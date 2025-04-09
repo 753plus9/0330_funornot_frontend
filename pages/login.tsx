@@ -1,58 +1,73 @@
-// frontend/pages/login.tsx
+// pages/login.tsx
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [isNewUser, setIsNewUser] = useState(false)
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-    yourId: '',
-    dadId: '', // for 娘 only
-  })
+  const [userId, setUserId] = useState('')
+  const [password, setPassword] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const url = isNewUser ? '/api/register' : '/api/login'
-    const payload = isNewUser
-      ? { email: form.email, password: form.password, your_id: form.yourId, dad_id: form.dadId }
-      : { email: form.email, password: form.password }
-
+  const handleLogin = async () => {
     try {
-      const res = await axios.post(url, payload)
-      localStorage.setItem('token', res.data.token)
-      router.push('/menu')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, password }),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        localStorage.setItem('user', JSON.stringify(data))
+        router.push('/menu')
+      } else {
+        alert('ログインに失敗しました')
+      }
     } catch (err) {
-      alert('ログインまたは登録に失敗しました')
+      console.error('ログインエラー:', err)
+      alert('ログイン処理でエラーが発生しました')
     }
   }
 
   return (
-    <div className="p-8 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">{isNewUser ? '新規登録' : 'ログイン'}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input name="email" type="email" placeholder="メールアドレス" onChange={handleChange} required className="w-full p-2 border rounded" />
-        <input name="password" type="password" placeholder="パスワード" onChange={handleChange} required className="w-full p-2 border rounded" />
-        {isNewUser && (
-          <>
-            <input name="yourId" placeholder="あなたのID" onChange={handleChange} className="w-full p-2 border rounded" />
-            <input name="dadId" placeholder="お父さんのID" onChange={handleChange} className="w-full p-2 border rounded" />
-          </>
-        )}
-        <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded">
-          {isNewUser ? '登録する' : 'ログイン'}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-white to-blue-100 p-4">
+      <div className="w-full max-w-sm bg-white shadow-xl rounded-3xl p-8">
+        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">ようこそ 👋</h1>
+
+        <label className="block mb-4">
+          <span className="text-gray-600 text-sm">ユーザーID</span>
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            className="mt-1 w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-300 focus:outline-none"
+            placeholder="your_id"
+          />
+        </label>
+
+        <label className="block mb-6">
+          <span className="text-gray-600 text-sm">パスワード</span>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-300 focus:outline-none"
+            placeholder="••••••••"
+          />
+        </label>
+
+        <button
+          onClick={handleLogin}
+          className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded-xl transition duration-200"
+        >
+          ログイン
         </button>
-      </form>
-      <div className="mt-4 text-sm text-center">
-        <button onClick={() => setIsNewUser(!isNewUser)} className="text-blue-500 underline">
-          {isNewUser ? '既に登録済み？ログインはこちら' : '新規登録はこちら'}
-        </button>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+          アカウントをお持ちでないですか？{' '}
+          <span className="text-pink-500 font-medium cursor-pointer hover:underline">
+            新規登録
+          </span>
+        </p>
       </div>
     </div>
   )
