@@ -12,7 +12,7 @@ export default function LoginPage() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, password }),
+        body: JSON.stringify({ email: userId, password }),
       })
 
       if (res.ok) {
@@ -34,13 +34,13 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">ようこそ 👋</h1>
 
         <label className="block mb-4">
-          <span className="text-gray-600 text-sm">ユーザーID</span>
+          <span className="text-gray-600 text-sm">メールアドレス</span>
           <input
             type="text"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             className="mt-1 w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-pink-300 focus:outline-none"
-            placeholder="your_id"
+            placeholder="you@example.com"
           />
         </label>
 
@@ -64,7 +64,10 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-gray-500 mt-4">
           アカウントをお持ちでないですか？{' '}
-          <span className="text-pink-500 font-medium cursor-pointer hover:underline">
+          <span
+            className="text-pink-500 font-medium cursor-pointer hover:underline"
+            onClick={() => router.push('/register')}  // 👈 登録ページへ
+          >
             新規登録
           </span>
         </p>

@@ -112,28 +112,40 @@ export default function UploadPage() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-6 flex flex-col items-center font-sans">
-      <h1 className="text-2xl font-extrabold text-gray-800 mb-6 text-center">
-        お父さんの写真をアップしよう <span className="text-pink-500">📷</span>
-      </h1>
-  
+    // <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-6 flex flex-col items-center font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-white to-blue-100 px-4 py-6 flex flex-col items-center font-sans">
+
+      
+      {/* 🔧 上部タイトル */}
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl font-extrabold text-gray-800">
+          BeDandy <span className="text-pink-500">📷</span>
+        </h1>
+        {/* <p className="text-sm text-gray-500">お父さんをスタイリッシュに変身！</p> */}
+        <h1 className="text-xl font-bold text-gray-800 mb-6 text-center leading-snug">
+          お父さんをスタイリッシュに変身！ <span className="text-pink-500">✨</span>
+        </h1>
+      </div>
+
+      {/* 🔧 写真選択エリア */}
       {!selectedImage && (
-        <label className="w-full max-w-xs p-6 bg-white border-2 border-dashed border-gray-300 rounded-2xl text-center shadow-md cursor-pointer hover:bg-gray-50 transition">
+        <label className="w-full max-w-xs p-8 bg-white border-2 border-dashed border-gray-300 rounded-3xl text-center shadow-md cursor-pointer hover:bg-gray-50 transition">
           <input type="file" accept="image/*" onChange={handleImageChange} hidden />
           <p className="text-gray-500 text-sm">📸 タップして写真を選ぶ</p>
         </label>
       )}
-  
+
       {previewUrl && (
         <div className="mb-6 w-full max-w-xs">
           <Image src={previewUrl} alt="Preview" width={300} height={400} className="rounded-xl shadow-lg object-cover" />
         </div>
       )}
   
-      {previewUrl && !loading && !resultImage && (
+    {/* 🔧 ボタン表示 */}
+    {previewUrl && !loading && !resultImage && (
         <button
           onClick={handleSubmit}
-          className="w-full max-w-xs bg-pink-500 text-white font-bold text-lg py-3 rounded-full shadow-md hover:bg-pink-600 transition mb-6"
+          className="w-full max-w-xs bg-gradient-to-r from-pink-500 to-pink-400 text-white font-bold text-lg py-3 rounded-full shadow-lg hover:from-pink-600 transition mb-6"
         >
           BeDandy ✨
         </button>
@@ -143,6 +155,7 @@ export default function UploadPage() {
         <p className="text-gray-600 mt-4 animate-pulse">変身中... お待ちください 💫</p>
       )}
   
+      {/* 🔧 結果表示 */}
       {resultImage && (
         <>
           <h2 className="text-xl font-semibold text-gray-700 mt-6 mb-4 text-center">
@@ -151,10 +164,11 @@ export default function UploadPage() {
           <div className="w-full max-w-xs mb-4">
             <Image src={resultImage} alt="Result" width={300} height={400} className="rounded-xl shadow-xl" />
           </div>
-  
+
+          {/* 🔧 アイテムカード */}
           <div className="w-full max-w-xs space-y-4 mb-6">
             {fashionItems.map((item, index) => (
-              <div key={index} className="bg-white p-4 rounded-2xl shadow-md text-sm border border-gray-100">
+              <div key={index} className="bg-white p-4 rounded-2xl shadow-sm text-sm border border-gray-200">
                 <p className="font-bold text-gray-800">{item.name}</p>
                 <p className="text-gray-600">ブランド：{item.brand}</p>
                 <p className="text-gray-600">価格：{item.price}</p>
@@ -162,11 +176,12 @@ export default function UploadPage() {
               </div>
             ))}
           </div>
-  
+
+          {/* 🔧 ボタン群 */}
           <div className="flex space-x-4 w-full max-w-xs">
             <button
               onClick={handleRetry}
-              className="flex-1 bg-gray-200 text-gray-800 font-semibold py-2 rounded-full hover:bg-gray-300 transition"
+              className="flex-1 bg-gray-100 text-gray-700 font-semibold py-2 rounded-full hover:bg-gray-200 transition"
             >
               再度実行
             </button>
@@ -181,5 +196,4 @@ export default function UploadPage() {
       )}
     </div>
   )
-  
 }
