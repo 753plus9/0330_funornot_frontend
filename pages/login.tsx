@@ -9,7 +9,9 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/login`, {
+      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/login`, {
+      const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/login`, {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: userId, password }),
