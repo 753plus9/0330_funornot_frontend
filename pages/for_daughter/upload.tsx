@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Image from 'next/image'
 
 console.log("✅ 現在のAPIエンドポイント1:", process.env.NEXT_PUBLIC_API_ENDPOINT)
-
 
 type FashionItem = {
   name: string
@@ -19,6 +19,7 @@ export default function UploadPage() {
   const [fashionItems, setFashionItems] = useState<FashionItem[]>([])
   const [beforeImageUrl, setBeforeImageUrl] = useState<string | null>(null) // Blob URLを保持
 
+  const router = useRouter()
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -44,6 +45,7 @@ export default function UploadPage() {
 
     try {
       console.log("✅ 現在のAPIエンドポイント4:", process.env.NEXT_PUBLIC_API_ENDPOINT)
+      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/generate`, {
       const response = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/generate`, {
         method: 'POST',
         body: formData,
@@ -55,13 +57,13 @@ export default function UploadPage() {
       // setBeforeImageUrl(data.before_image_url) // 新たに受け取るBlob URL
 
       // 👇 ここでレスポンスのステータスを確認！
-      if (!response.ok) {
-        console.error("画像変換リクエスト失敗:", response.status);
+      if (!res.ok) {
+        console.error("画像変換リクエスト失敗:", res.status);
         alert("画像の変換に失敗しました。");
         return;
       }
 
-      const text = await response.text()
+      const text = await res.text()
       try {
         const data = JSON.parse(text)
         setResultImage(data.generated_image_url)
@@ -86,6 +88,7 @@ export default function UploadPage() {
 
   const handleConfirm = async () => {
     try {
+      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/save`, {
       const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/save`, {
 
         method: 'POST',
@@ -101,6 +104,8 @@ export default function UploadPage() {
       if (res.ok) {
         alert('保存しました！')
         // 画面遷移など
+        router.push('/send')  // ✅ 成功したら send.tsx に遷移
+
       } else {
         alert('保存に失敗しました')
       }
