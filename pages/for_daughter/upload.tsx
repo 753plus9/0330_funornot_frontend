@@ -46,15 +46,10 @@ export default function UploadPage() {
     try {
       console.log("✅ 現在のAPIエンドポイント4:", process.env.NEXT_PUBLIC_API_ENDPOINT)
       // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/generate`, {
-      const response = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/generate`, {
+      const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/generate`, {
         method: 'POST',
         body: formData,
       })
-
-      // const data = await response.json()
-      // setResultImage(data.generated_image_url)
-      // setFashionItems(data.fashion_items)
-      // setBeforeImageUrl(data.before_image_url) // 新たに受け取るBlob URL
 
       // 👇 ここでレスポンスのステータスを確認！
       if (!res.ok) {
