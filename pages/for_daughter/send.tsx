@@ -132,6 +132,21 @@ export default function SendPage() {
                 {shareUrl}
               </div>
     
+
+              {/* ✅ クリップボードにコピーするボタン */}
+              <button
+                onClick={() => {
+                  if (shareUrl) {
+                    navigator.clipboard.writeText(shareUrl)
+                      .then(() => alert("URLをコピーしました！"))
+                      .catch(() => alert("コピーに失敗しました"));
+                  }
+                }}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full mb-4 transition w-full max-w-xs"
+              >
+                URLをコピーする
+              </button>
+
               <button
                 onClick={() => router.push("/menu")}
                 className="bg-gray-500 text-white font-bold py-3 px-6 rounded-full hover:bg-gray-600 transition w-full max-w-xs"
