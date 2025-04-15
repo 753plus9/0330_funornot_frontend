@@ -14,8 +14,8 @@ export default function RegisterPage() {
     const generatedFamilyId = uuidv4().slice(0, 8)  // "e3f1a2c4" のような値
 
     try {
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/register`, {
-        const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/register`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/register`, {
+        // const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/register`, {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

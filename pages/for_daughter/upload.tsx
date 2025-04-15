@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
 import Image from 'next/image'
 
 console.log("✅ 現在のAPIエンドポイント1:", process.env.NEXT_PUBLIC_API_ENDPOINT)
@@ -81,6 +82,16 @@ export default function UploadPage() {
     handleSubmit()
   }
 
+  const [familyId, setFamilyId] = useState<string>('')
+
+  useEffect(() => {
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      setFamilyId(user.family_id)
+    }
+  }, [])
+
   const handleConfirm = async () => {
     try {
       // const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/save`, {
@@ -89,7 +100,7 @@ export default function UploadPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          family_id: '001', // ← ログインユーザー情報から取得（TODO）
+          family_id: familyId, // ← ここにログイン情報から取得したIDを利用
           before_url: beforeImageUrl,            // ← アップロード前のURL
           after_url: resultImage,            // ← Replicate生成URL
           fashion_items: fashionItems,
@@ -99,7 +110,7 @@ export default function UploadPage() {
       if (res.ok) {
         alert('保存しました！')
         // 画面遷移など
-        router.push('/send')  // ✅ 成功したら send.tsx に遷移
+        router.push('/for_daughter/send')  // ✅ 成功したら send.tsx に遷移
 
       } else {
         alert('保存に失敗しました')

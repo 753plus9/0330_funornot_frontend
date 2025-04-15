@@ -23,10 +23,10 @@ export default function MenuPage() {
           </button>
 
           <button
-            onClick={goToCheck}
+            // onClick={goToCheck}
             className="w-full bg-blue-400 hover:bg-blue-500 text-white font-semibold py-3 rounded-full transition"
           >
-            for 父 👨
+            for 父 👨（将来開発）
           </button>
         </div>
       </div>
