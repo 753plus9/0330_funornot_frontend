@@ -15,7 +15,7 @@ const CheckPage = () => {
     if (!family_id) return; // family_idが取得できてないときは実行しない
 
     // fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/check_by_family/${family_id}`)
-    fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/check_by_family/${family_id}`, {
+    fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/check_by_family/${family_id}`)
 
       .then((res) => res.json())
       .then((data) => {
