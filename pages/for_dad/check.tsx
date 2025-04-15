@@ -65,12 +65,12 @@ const CheckPage = () => {
         娘からの提案を確認する
       </button>
 
-      <button
+      {/* <button
         onClick={handleBackClick}
         className="bg-rose-300 hover:bg-rose-400 text-white font-medium py-3 px-6 rounded-xl w-full max-w-xs"
       >
         戻る
-      </button>
+      </button> */}
     </main>
   );
 };

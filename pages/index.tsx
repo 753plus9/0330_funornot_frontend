@@ -1,20 +1,23 @@
+'use client'
+
 import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'  // ✅ こちらを使うとCSR前提になる
 
 export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    // ✅ ブラウザでのみ実行されるようにガード
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user')
-      if (user) {
-        router.push('/menu')
-      } else {
-        router.push('/login')
-      }
+    const user = localStorage.getItem('user')
+    if (user) {
+      router.push('/menu')
+    } else {
+      router.push('/login')
     }
   }, [])
 
-  return null
+  return (
+    <div className="flex justify-center items-center min-h-screen text-gray-600">
+      リダイレクト中...
+    </div>
+  )
 }
