@@ -43,7 +43,9 @@ export default function SendPage() {
         console.log("メッセージ:", message)
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/sendMessage`, {
+            //const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/sendMessage`, {
+            const res = await fetch(`https://app-002-step3-2-py-oshima6.azurewebsites.net/api/sendMessage`, {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,7 +66,7 @@ export default function SendPage() {
             setStep('done')       // ← 表示ステップに進む
         } catch (error) {
             console.error("❌ 送信エラー:", error);
-            alert("送信中にエラーが発生しました。通信状況をご確認ください。");
+            alert("送信エラーです。管理者に問い合わせをお願いします");
             setStep('input');  // 入力画面に戻す            
         }
     }
