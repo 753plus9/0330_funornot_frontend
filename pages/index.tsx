@@ -7,12 +7,12 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    const user = localStorage.getItem('user')
-    if (user) {
-      router.push('/menu')
-    } else {
+    // const user = localStorage.getItem('user')
+    // if (user) {
+    //   router.push('/menu')
+    // } else {
       router.push('/login')
-    }
+    // }
   }, [])
 
   return (
