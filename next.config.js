@@ -1,21 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // ← ここを 'standalone' から 'export' に変更
+  output: 'export',
   env: {
     API_ENDPOINT: process.env.API_ENDPOINT,
   },
-  images: {
-    domains: ['replicate.delivery'],
-  },
-
+  reactStrictMode: true,
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb', // ← ここで上限を指定（例：10MB）
+      bodySizeLimit: '10mb',
     },
   },
-
-  reactStrictMode: true,
   images: {
+    unoptimized: true, // ✅ export モードでは必須
+    domains: ['replicate.delivery'], // ✅ domainsも残してOK
     remotePatterns: [
       {
         protocol: 'https',
@@ -27,8 +24,8 @@ const nextConfig = {
         hostname: 'replicate.delivery',
         pathname: '/**',
       },
-    ],  },
-  
+    ],
+  },
 }
 
 module.exports = nextConfig;
