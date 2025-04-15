@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: 'standalone',
   env: {
     API_ENDPOINT: process.env.API_ENDPOINT,
   },
